@@ -9,7 +9,6 @@ module DnsPropagation
       @snapshot = Snapshot.new(:domain => @domain)
     end
 
-    # TODO: Primary nameserver lookup via SOA doesn't work.
     it 'should snapshot' do
       @snapshot.snapshot!
       @snapshot.domain.should == @domain

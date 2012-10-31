@@ -3,6 +3,7 @@ require "dns-propagation/version"
 require 'mongo'
 require 'mongoid'
 require 'net/dns'
+require "public_suffix"
 
 require 'whois'
 require 'resolv'

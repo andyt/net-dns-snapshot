@@ -5,6 +5,7 @@ module DnsPropagation
     include Mongoid::Document
 
     field :at, type: DateTime
+    field :resolves_to, type: String
     #field :nameservers, type: Array
     field :count_queried, type: Integer, default: 0
     field :count_current, type: Integer, default: 0
@@ -14,7 +15,8 @@ module DnsPropagation
     has_many :lookups
 
     def snapshot!
-      self.at = Time.now      
+      self.at = Time.now
+      self.resolves_to = auth_lookup.resolves_to
       nameservers.each do |ns|
         begin
           ns_lookups << lookups.build(:domain => domain, :ns => ns).resolve.tap { |l| l.save }
@@ -33,12 +35,14 @@ module DnsPropagation
 
     def analyse
       ns_lookups.each do |ns_lookup|
-        if ns_lookup.resolves_to == auth_lookup.resolves_to
-          self.count_current += 1
-        else
-          self.count_lagging += 1
+        if ns_lookup.answer
+          if ns_lookup.resolves_to == auth_lookup.resolves_to
+            self.count_current += 1
+          else
+            self.count_lagging += 1
+          end
+          self.count_queried += 1
         end
-        self.count_queried += 1
       end
     end
 

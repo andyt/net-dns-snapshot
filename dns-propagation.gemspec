@@ -22,6 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'mongo'
   gem.add_dependency 'bson_ext'
   gem.add_dependency 'mongoid'
+  gem.add_dependency 'public_suffix'
 
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'mongoid-rspec'
@@ -30,3 +31,4 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rb-readline'
   gem.add_development_dependency 'rb-inotify'
 end
+

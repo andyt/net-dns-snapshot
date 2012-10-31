@@ -5,14 +5,18 @@ module DnsPropagation
     include Mongoid::Document
 
     field :name, type: String
+    field :domain, type: String
     field :created_at, type: DateTime
+
     #index(name: 1)
 
     has_many :lookups
     has_many :snapshots
 
     def name=(value)
-      self[:name] = value
+      super.tap do
+        self.domain = PublicSuffix.parse(value).domain
+      end
     end
 
     def resolve
@@ -34,7 +38,7 @@ module DnsPropagation
     end
 
     def primary_nameserver
-      @primary_nameserver ||= soa.mname
+      @primary_nameserver ||= resolver.query(domain, Net::DNS::NS).answer.map(&:value).sort.first
     end
 
     def whois

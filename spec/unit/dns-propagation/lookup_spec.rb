@@ -15,7 +15,7 @@ module DnsPropagation
       it 'should set value, ttl and time' do
         lookup.resolve
         lookup.query.should == @domain.name
-        lookup.answer.size.should == 2
+        lookup.answer.size.should == 1
         lookup.answer.first.should be_a String   # Net::DNS::RR::CNAME
         lookup.at.should be_a DateTime
         lookup.ttl.should be_a Integer

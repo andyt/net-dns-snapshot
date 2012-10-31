@@ -23,6 +23,10 @@ module DnsPropagation
       should == 'ns1.rimuhosting.com.'
     end
 
+    its(:domain) do
+      should == 'bikepimp.co.uk'
+    end
+
     its(:primary_nameserver_ip) do
       should == '66.199.228.130'
     end

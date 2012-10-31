@@ -24,8 +24,6 @@ module DnsPropagation
       self.query = domain.name
       self.at = Time.now.utc
 
-      puts ns
-
       answer = resolver.query(query).answer
       if !answer.empty?
         self.answer = answer.map(&:to_s)
@@ -33,7 +31,7 @@ module DnsPropagation
         self.resolves_to = answer.first.value
       end
 
-      puts({ :q => query, :ns => ns, :resolves_to => resolves_to }.inspect)
+      #puts({ :q => query, :ns => ns, :resolves_to => resolves_to }.inspect)
 
       self
     end
@@ -44,7 +42,7 @@ module DnsPropagation
       raise RuntimeError, "No nameserver!" unless ns
       @resolver ||= Net::DNS::Resolver.new(
         :nameservers => [IPAddr.new(ns)],
-        :recursive => true
+        :recursive => false
       )
     end
 
