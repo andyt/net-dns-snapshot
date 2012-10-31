@@ -24,7 +24,7 @@ module DnsPropagation
       end
 
       it 'should create lookups' do
-        lookup = mock(:save => true); lookup.stub(:resolve).and_return(lookup)
+        lookup = mock(:save => true, :resolves_to => ['127.0.0.1']); lookup.stub(:resolve).and_return(lookup)
         snapshot.lookups.should_receive(:build).with(:domain => @domain, :ns => @domain.primary_nameserver_ip).and_return(lookup)
         @nameservers.each do |ns|
           snapshot.lookups.should_receive(:build).with(:domain => @domain, :ns => ns).and_return(lookup)

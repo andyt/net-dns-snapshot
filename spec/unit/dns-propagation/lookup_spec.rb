@@ -19,6 +19,7 @@ module DnsPropagation
         lookup.answer.first.should be_a String   # Net::DNS::RR::CNAME
         lookup.at.should be_a DateTime
         lookup.ttl.should be_a Integer
+        lookup.resolves_to.should be_a String
       end
     end
   end

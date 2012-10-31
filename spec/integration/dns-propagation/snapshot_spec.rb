@@ -5,15 +5,17 @@ module DnsPropagation
   describe Snapshot do
 
     before(:each) do
-      @domain = Domain.new(:name => 'www.google.co.uk')
+      @domain = Domain.new(:name => 'www.armakuni.com')
       @snapshot = Snapshot.new(:domain => @domain)
     end
 
+    # TODO: Primary nameserver lookup via SOA doesn't work.
     it 'should snapshot' do
       @snapshot.snapshot!
       @snapshot.domain.should == @domain
-      @snapshot.lookups.count.should == @snapshot.nameservers.size + 1
+      @snapshot.lookups.count.should == @snapshot.send(:nameservers).size + 1
       @domain.snapshots.size.should == 1
+      @snapshot.count_current.should == @snapshot.count_queried
     end
 
   end

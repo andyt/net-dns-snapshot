@@ -10,6 +10,7 @@ module DnsPropagation
     field :ns, type: String
     field :rtype, type: String
     field :answer, type: Array
+    field :resolves_to, type: String
     field :ttl, type: Integer
     field :is_auth, type: String
     field :at, type: DateTime
@@ -21,10 +22,19 @@ module DnsPropagation
 
     def resolve
       self.query = domain.name
-      answer = resolver.query(query).answer
-      self.answer = answer.map(&:to_s)
       self.at = Time.now.utc
-      self.ttl = answer.first.ttl unless answer.empty?
+
+      puts ns
+
+      answer = resolver.query(query).answer
+      if !answer.empty?
+        self.answer = answer.map(&:to_s)
+        self.ttl = answer.first.ttl
+        self.resolves_to = answer.first.value
+      end
+
+      puts({ :q => query, :ns => ns, :resolves_to => resolves_to }.inspect)
+
       self
     end
 
