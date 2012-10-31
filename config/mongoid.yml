@@ -1,0 +1,15 @@
+development:
+  sessions:
+    default:
+      hosts:
+        - localhost:27017
+      # Define the default database name.
+      database: dnsprop_development
+
+test:
+  sessions:
+    default:
+      hosts:
+        - localhost:27017
+      # Define the default database name.
+      database: dnsprop_test
