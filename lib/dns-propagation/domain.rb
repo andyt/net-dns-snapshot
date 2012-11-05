@@ -10,7 +10,7 @@ module DnsPropagation
     field :domain, type: String
     field :created_at, type: DateTime
 
-    #index(name: 1)
+    index(name: 1)
 
     has_many :lookups
     has_many :snapshots
