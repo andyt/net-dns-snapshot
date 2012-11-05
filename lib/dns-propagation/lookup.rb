@@ -40,7 +40,7 @@ module DnsPropagation
       raise RuntimeError, "No nameserver!" unless ns
       @resolver ||= Net::DNS::Resolver.new(
         :nameservers => [IPAddr.new(ns)],
-        :recursive => false
+        :recursive => true
       )
     end
 
