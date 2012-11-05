@@ -8,6 +8,7 @@ module DnsPropagation
 
     field :at, type: DateTime
     field :resolves_to, type: String
+    field :primary_nameserver, type: String
     #field :nameservers, type: Array
     field :count_queried, type: Integer, default: 0
     field :count_current, type: Integer, default: 0
@@ -20,6 +21,7 @@ module DnsPropagation
     def snapshot!
       self.at = Time.now
       self.resolves_to = auth_lookup.resolves_to
+      self.primary_nameserver = domain.primary_nameserver
       threads = []
       nameservers.each do |ns|
         threads << Thread.new do 
