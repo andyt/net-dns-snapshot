@@ -12,6 +12,7 @@ module DnsPropagation
     field :count_queried, type: Integer, default: 0
     field :count_current, type: Integer, default: 0
     field :count_lagging, type: Integer, default: 0
+    field :ok, type: Boolean
 
     belongs_to :domain
     has_many :lookups
@@ -50,6 +51,7 @@ module DnsPropagation
           self.count_queried += 1
         end
       end
+      self.ok = (count_current == count_queried)
     end
 
     def ns_lookups
