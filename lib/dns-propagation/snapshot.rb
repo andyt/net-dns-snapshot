@@ -32,7 +32,9 @@ module DnsPropagation
     end
 
     def auth_lookup 
-      @auth_lookup ||= lookups.build(:domain => domain, :ns => domain.primary_nameserver_ip).resolve.tap { |l| l.save }
+      @auth_lookup ||= lookups.build(:snapshot => self, :domain => domain, :ns => domain.primary_nameserver_ip).resolve.tap do |lookup| 
+        lookup.save
+      end
     end
 
     private
