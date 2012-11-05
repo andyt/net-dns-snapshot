@@ -40,7 +40,9 @@ module DnsPropagation
     end
 
     def primary_nameserver
-      @primary_nameserver ||= resolver.query(domain, Net::DNS::NS).answer.map(&:value).sort.first
+      retryable(:tries => 5, :on => Net::DNS::Resolver::NoResponseError) do
+        @primary_nameserver ||= resolver.query(domain, Net::DNS::NS).answer.map(&:value).sort.first
+      end
     end
 
     def whois
