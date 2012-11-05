@@ -14,6 +14,8 @@ require 'dns-propagation/domain'
 require 'dns-propagation/lookup'
 require 'dns-propagation/snapshot'
 
+Mongoid.load!("config/mongoid.yml", ENV['RACK_ENV'])
+
 module DnsPropagation
   def self.nameservers
     @nameservers ||= begin
