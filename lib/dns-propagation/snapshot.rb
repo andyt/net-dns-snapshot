@@ -19,13 +19,15 @@ module DnsPropagation
     def snapshot!
       self.at = Time.now
       self.resolves_to = auth_lookup.resolves_to
+      threads = []
       nameservers.each do |ns|
-        begin
-          ns_lookups << lookups.build(:domain => domain, :ns => ns).resolve.tap { |l| l.save }
-        rescue Net::DNS::Resolver::NoResponseError
-          # NOOP
+        threads << Thread.new do 
+          retryable(:tries => 5, :on => Net::DNS::Resolver::NoResponseError) do
+            ns_lookups << lookups.build(:domain => domain, :ns => ns).resolve.tap { |l| l.save }
+          end
         end
       end
+      threads.each { |t| t.join }
       analyse
     end
 
