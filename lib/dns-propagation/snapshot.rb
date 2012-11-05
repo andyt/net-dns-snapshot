@@ -1,8 +1,10 @@
 require 'dns-propagation'
+require 'retryable'
 
 module DnsPropagation
   class Snapshot
     include Mongoid::Document
+    include Retryable
 
     field :at, type: DateTime
     field :resolves_to, type: String

@@ -1,8 +1,10 @@
 require 'dns-propagation'
+require 'retryable'
 
 module DnsPropagation
 	class Domain
     include Mongoid::Document
+    include Retryable
 
     field :name, type: String
     field :domain, type: String
