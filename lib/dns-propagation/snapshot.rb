@@ -42,6 +42,11 @@ module DnsPropagation
 
     private
 
+    def previous
+      raise ArgumentError, ":at not set" unless self.at
+      @previous ||= Snapshot.order([:at, 1]).where(:at < self.at).first
+    end
+
     def analyse
       ns_lookups.each do |ns_lookup|
         if ns_lookup.answer
