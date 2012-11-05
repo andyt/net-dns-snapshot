@@ -1,7 +1,5 @@
 require 'dns-propagation'
 
-Mongoid.load!("config/mongoid.yml", ENV['RACK_ENV'])
-
 module DnsPropagation
 	class Lookup
     include Mongoid::Document
