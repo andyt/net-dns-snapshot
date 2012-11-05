@@ -23,8 +23,10 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'bson_ext'
   gem.add_dependency 'mongoid'
   gem.add_dependency 'public_suffix'
+  gem.add_dependency 'sinatra'
 
   gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'shotgun'
   gem.add_development_dependency 'mongoid-rspec'
   gem.add_development_dependency 'guard'
   gem.add_development_dependency 'guard-rspec'
